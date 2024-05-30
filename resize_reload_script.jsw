@@ -1,0 +1,19 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof window !== "undefined") {
+            let initialWidth = window.innerWidth;
+            let initialHeight = window.innerHeight;
+
+            function handleResize() {
+                let newWidth = window.innerWidth;
+                let newHeight = window.innerHeight;
+                if (newWidth !== initialWidth || newHeight !== initialHeight) {
+                    location.reload();
+                }
+            }
+
+            // Add the resize event listener
+            window.addEventListener('resize', handleResize);
+        }
+    });
+</script>
