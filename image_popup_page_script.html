@@ -1,0 +1,14 @@
+<script>
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'resizeIframe') {
+            var iframe = document.getElementById(event.data.id); // Select your iframe element by ID
+            if (event.data.size === 'expand') {
+                iframe.style.width = '600px'; // Set the expanded width
+                iframe.style.height = '600px'; // Set the expanded height
+            } else if (event.data.size === 'restore') {
+                iframe.style.width = '300px'; // Set the original width
+                iframe.style.height = '300px'; // Set the original height
+            }
+        }
+    });
+    </script>
