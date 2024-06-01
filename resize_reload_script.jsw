@@ -1,19 +1,42 @@
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (typeof window !== "undefined") {
-            let initialWidth = window.innerWidth;
-            let initialHeight = window.innerHeight;
+ <script>
+        // Wait until the DOM is fully loaded before running the script
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the window object is available
+            if (typeof window !== "undefined") {
+                // Store the initial window width and height
+                let initialWidth = window.innerWidth;
+                let initialHeight = window.innerHeight;
+                // Set a threshold for significant resize changes (in pixels)
+                const resizeThreshold = 100;
 
-            function handleResize() {
-                let newWidth = window.innerWidth;
-                let newHeight = window.innerHeight;
-                if (newWidth !== initialWidth || newHeight !== initialHeight) {
-                    location.reload();
+                // Debounce function to limit how often handleResize is called
+                function debounce(func, delay) {
+                    let timeout; // Variable to store the timeout ID
+                    return function() {
+                        const context = this, args = arguments; // Preserve context and arguments
+                        clearTimeout(timeout); // Clear the previous timeout
+                        // Set a new timeout to call the function after the specified delay
+                        timeout = setTimeout(() => func.apply(context, args), delay);
+                    };
                 }
-            }
 
-            // Add the resize event listener
-            window.addEventListener('resize', handleResize);
-        }
-    });
-</script>
+                // Function to handle the resize event
+                function handleResize() {
+                    // Get the new window width and height
+                    let newWidth = window.innerWidth;
+                    let newHeight = window.innerHeight;
+                    // Calculate the difference in width and height
+                    let widthDifference = Math.abs(newWidth - initialWidth);
+                    let heightDifference = Math.abs(newHeight - initialHeight);
+
+                    // If the change in width or height exceeds the threshold, reload the page
+                    if (widthDifference > resizeThreshold || heightDifference > resizeThreshold) {
+                        location.reload();
+                    }
+                }
+
+                // Add the debounced resize event listener with a 200ms delay
+                window.addEventListener('resize', debounce(handleResize, 200));
+            }
+        });
+    </script>
